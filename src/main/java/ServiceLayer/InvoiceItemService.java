@@ -9,9 +9,7 @@ import java.text.SimpleDateFormat;
 import java.util.Date;
 import java.util.Map;
 
-/**
- * Service layer for invoice item-related operations.
- */
+
 public class InvoiceItemService {
     private static final Logger logger = LoggerFactory.getLogger(InvoiceItemService.class);
     private final InvoiceItemDAO invoiceItemDAO;
@@ -20,9 +18,6 @@ public class InvoiceItemService {
         this.invoiceItemDAO = new InvoiceItemDAO();
     }
 
-    /**
-     * Retrieves and displays peak sales hours in a formatted manner (e.g., 12:00 PM).
-     */
     public void displayPeakSalesHours() {
         logger.info("Displaying peak sales hours");
         Map<Integer, BigDecimal> peakHours = invoiceItemDAO.getPeakSalesHours();
@@ -34,7 +29,7 @@ public class InvoiceItemService {
         SimpleDateFormat sdf = new SimpleDateFormat("hh:mm a");
         for (Map.Entry<Integer, BigDecimal> entry : peakHours.entrySet()) {
             try {
-                // Convert hour to formatted time (e.g., 12 to 12:00 PM)
+
                 Date date = new SimpleDateFormat("HH").parse(String.valueOf(entry.getKey()));
                 String formattedHour = sdf.format(date);
                 System.out.println("Hour: " + formattedHour + ", Total Sales: $" + entry.getValue());
@@ -44,9 +39,7 @@ public class InvoiceItemService {
         }
     }
 
-    /**
-     * Retrieves and displays peak sales days by day of the week.
-     */
+
     public void displayPeakSalesDays() {
         logger.info("Displaying peak sales days");
         Map<String, BigDecimal> peakDays = invoiceItemDAO.getPeakSalesDays();

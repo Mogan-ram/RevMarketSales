@@ -12,18 +12,11 @@ import java.sql.SQLException;
 import java.util.LinkedHashMap;
 import java.util.Map;
 
-/**
- * Data Access Object for interacting with the invoices table.
- */
+
 public class InvoiceDAO {
     private static final Logger logger = LoggerFactory.getLogger(InvoiceDAO.class);
 
-    /**
-     * Retrieves key performance indicators (Total Sales and Gross Income) from the invoices table.
-     *
-     * @return an array containing Total Sales and Gross Income
-     * @throws RuntimeException if a database error occurs
-     */
+
     public BigDecimal[] getKPI() {
         BigDecimal[] kpis = new BigDecimal[2];
         String sql = "SELECT ROUND(SUM(total_sales), 2) AS Total_sales, " +
@@ -46,12 +39,7 @@ public class InvoiceDAO {
         return kpis;
     }
 
-    /**
-     * Retrieves monthly sales trends from the invoices table.
-     *
-     * @return a map of month (YYYY-MM) to total sales
-     * @throws RuntimeException if a database error occurs
-     */
+
     public Map<String, BigDecimal> getSalesTrends() {
         Map<String, BigDecimal> trends = new LinkedHashMap<>();
         String sql = "SELECT DATE_FORMAT(dateTime, '%Y-%m') AS month, ROUND(SUM(total_sales), 2) AS total_sales " +
@@ -74,12 +62,7 @@ public class InvoiceDAO {
         return trends;
     }
 
-    /**
-     * Retrieves quarterly sales trends from the invoices table.
-     *
-     * @return a map of quarter (YYYY-Q) to total sales
-     * @throws RuntimeException if a database error occurs
-     */
+
     public Map<String, BigDecimal> getQuarterlySalesTrends() {
         Map<String, BigDecimal> trends = new LinkedHashMap<>();
         String sql = "SELECT quarter, ROUND(SUM(total_sales), 2) AS total_sales\n" +
@@ -108,12 +91,7 @@ public class InvoiceDAO {
         return trends;
     }
 
-    /**
-     * Retrieves yearly sales trends from the invoices table.
-     *
-     * @return a map of year (YYYY) to total sales
-     * @throws RuntimeException if a database error occurs
-     */
+
     public Map<String, BigDecimal> getYearlySalesTrends() {
         Map<String, BigDecimal> trends = new LinkedHashMap<>();
         String sql = "SELECT YEAR(dateTime) AS year, ROUND(SUM(total_sales), 2) AS total_sales " +
@@ -136,12 +114,7 @@ public class InvoiceDAO {
         return trends;
     }
 
-    /**
-     * Retrieves discount impact by grouping sales by discount level.
-     *
-     * @return a map of discount level (High/Low) to total sales
-     * @throws RuntimeException if a database error occurs
-     */
+
     public Map<String, BigDecimal> getDiscountImpact() {
         Map<String, BigDecimal> impact = new LinkedHashMap<>();
         String sql = "SELECT CASE WHEN gross_margin_percentage < 0.1 THEN 'High Discount' ELSE 'Low Discount' END AS discount_level, " +

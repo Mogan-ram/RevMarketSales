@@ -1,8 +1,5 @@
 package Model;
 
-/**
- * Represents a customer in the supermarket database.
- */
 public class Customer {
     private int customer_id;
     private CustomerType customer_type;
@@ -11,13 +8,6 @@ public class Customer {
     public Customer() {
     }
 
-    /**
-     * Constructs a Customer with the specified details.
-     *
-     * @param customer_id   the unique identifier of the customer
-     * @param customer_type the type of customer (MEMBER or NORMAL)
-     * @param gender       the gender of the customer
-     */
     public Customer(int customer_id, CustomerType customer_type, Gender gender) {
         this.customer_id = customer_id;
         this.customer_type = customer_type;

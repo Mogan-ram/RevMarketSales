@@ -3,9 +3,7 @@ package Model;
 import java.math.BigDecimal;
 import java.time.LocalDateTime;
 
-/**
- * Represents an invoice in the supermarket database.
- */
+
 public class Invoices {
     private String invoice_id;
     private int branch_id;
@@ -21,20 +19,6 @@ public class Invoices {
     public Invoices() {
     }
 
-    /**
-     * Constructs an Invoice with the specified details.
-     *
-     * @param invoice_id           the unique identifier of the invoice
-     * @param branch_id            the branch ID
-     * @param customer_id          the customer ID
-     * @param dateTime             the date and time of the transaction
-     * @param payment_method       the payment method used
-     * @param total_sales         the total sales amount
-     * @param tax                 the tax amount
-     * @param cogs                the cost of goods sold
-     * @param grossMarginPercentage the gross margin percentage
-     * @param gross_income        the gross income
-     */
     public Invoices(String invoice_id, int branch_id, int customer_id, LocalDateTime dateTime,
                     String payment_method, BigDecimal total_sales, BigDecimal tax,
                     BigDecimal cogs, BigDecimal grossMarginPercentage, BigDecimal gross_income) {

@@ -12,18 +12,11 @@ import java.sql.SQLException;
 import java.util.LinkedHashMap;
 import java.util.Map;
 
-/**
- * Data Access Object for interacting with the invoice_items table.
- */
+
 public class InvoiceItemDAO {
     private static final Logger logger = LoggerFactory.getLogger(InvoiceItemDAO.class);
 
-    /**
-     * Retrieves peak sales hours by aggregating total sales by hour of the day.
-     *
-     * @return a map of hour (0-23) to total sales
-     * @throws RuntimeException if a database error occurs
-     */
+
     public Map<Integer, BigDecimal> getPeakSalesHours() {
         Map<Integer, BigDecimal> peakHours = new LinkedHashMap<>();
         String sql = "SELECT HOUR(i.dateTime) AS hour, ROUND(SUM(i.total_sales), 2) AS total_sales " +
@@ -47,12 +40,7 @@ public class InvoiceItemDAO {
         return peakHours;
     }
 
-    /**
-     * Retrieves peak sales days by aggregating total sales by day of the week.
-     *
-     * @return a map of day name (e.g., Monday) to total sales
-     * @throws RuntimeException if a database error occurs
-     */
+
     public Map<String, BigDecimal> getPeakSalesDays() {
         Map<String, BigDecimal> peakDays = new LinkedHashMap<>();
         String sql = "SELECT DAYNAME(i.dateTime) AS day_name, ROUND(SUM(i.total_sales), 2) AS total_sales " +

@@ -18,62 +18,54 @@ import java.util.Map;
 import java.util.Scanner;
 import java.util.Locale;
 
-/**
- * Main class for the RevMarketSales CLI application with sub-menus.
- */
 public class Main {
     private static final Logger logger = LoggerFactory.getLogger(Main.class);
     private static final NumberFormat currencyFormat = NumberFormat.getCurrencyInstance(Locale.US);
     private static final Scanner scanner = new Scanner(System.in);
 
-    /**
-     * Entry point for the menu-based CLI application.
-     *
-     * @param args command-line arguments (not used)
-     */
-    public static void main(String[] args) {
-        BranchService branchService = new BranchService();
-        CustomerService customerService = new CustomerService();
-        InvoiceService invoiceService = new InvoiceService();
-        ProductsService productsService = new ProductsService();
-        InvoiceItemService invoiceItemService = new InvoiceItemService();
+    // Global service objects
+    private static final BranchService branchService = new BranchService();
+    private static final CustomerService customerService = new CustomerService();
+    private static final InvoiceService invoiceService = new InvoiceService();
+    private static final ProductsService productsService = new ProductsService();
+    private static final InvoiceItemService invoiceItemService = new InvoiceItemService();
 
+    public static void main(String[] args) {
         while (true) {
             displayMainMenu();
             try {
                 System.out.print("Enter your choice (1-10): ");
                 int choice = scanner.nextInt();
-                scanner.nextLine(); // Consume newline
 
                 switch (choice) {
                     case 1:
-                        displayKPIsMenu(invoiceService, productsService);
+                        displayKPIsMenu();
                         break;
                     case 2:
-                        displayTopBranch(branchService);
+                        displayTopBranch();
                         break;
                     case 3:
-                        displayTopCity(branchService);
+                        displayTopCity();
                         break;
                     case 4:
-                        displayCustomerPatternsMenu(customerService);
+                        displayCustomerPatternsMenu();
                         break;
                     case 5:
-                        displaySalesTrendsMenu(invoiceService);
+                        displaySalesTrendsMenu();
                         break;
                     case 6:
-                        displayPeakSalesHours(invoiceItemService);
+                        displayPeakSalesHours();
                         break;
                     case 7:
-                        displayPeakSalesDays(invoiceItemService);
+                        displayPeakSalesDays();
                         break;
                     case 8:
-                        displayProductProfitability(productsService);
+                        displayProductProfitability();
                         break;
+//                    case 9:
+//                        displayDiscountImpact();
+//                        break;
                     case 9:
-                        displayDiscountImpact(invoiceService);
-                        break;
-                    case 10:
                         logger.info("Exiting application");
                         System.out.println("BYEEEEEEEE!");
                         scanner.close();
@@ -85,7 +77,6 @@ public class Main {
             } catch (InputMismatchException e) {
                 logger.warn("Invalid input, expected a number", e);
                 System.out.println("Please enter a valid number.");
-                scanner.nextLine(); // Clear invalid input
             } catch (Exception e) {
                 logger.error("Error processing menu option", e);
                 System.out.println("An error occurred: " + e.getMessage());
@@ -96,7 +87,7 @@ public class Main {
     }
 
     private static void displayMainMenu() {
-        System.out.println("\n=== RevMarketSales Menu ===");
+        System.out.println("\n=== Menu ===");
         System.out.println("1. View KPIs");
         System.out.println("2. View Top Branch");
         System.out.println("3. View Top City");
@@ -105,11 +96,11 @@ public class Main {
         System.out.println("6. View Peak Sales Hours");
         System.out.println("7. View Peak Sales Days");
         System.out.println("8. View Product Profitability");
-        System.out.println("9. View Discount Impact");
-        System.out.println("10. Exit");
+//        System.out.println("9. View Discount Impact");
+        System.out.println("9. Exit");
     }
 
-    private static void displayKPIsMenu(InvoiceService invoiceService, ProductsService productsService) {
+    private static void displayKPIsMenu() {
         while (true) {
             System.out.println("\n=== KPIs Menu ===");
             System.out.println("1. Total Sales");
@@ -119,7 +110,7 @@ public class Main {
             try {
                 System.out.print("Enter your choice (1-4): ");
                 int choice = scanner.nextInt();
-                scanner.nextLine(); // Consume newline
+                scanner.nextLine();
                 switch (choice) {
                     case 1:
                         logger.info("Displaying Total Sales");
@@ -163,7 +154,7 @@ public class Main {
         }
     }
 
-    private static void displayCustomerPatternsMenu(CustomerService service) {
+    private static void displayCustomerPatternsMenu() {
         while (true) {
             System.out.println("\n=== Customer Patterns Menu ===");
             System.out.println("1. All Patterns");
@@ -173,11 +164,11 @@ public class Main {
             try {
                 System.out.print("Enter your choice (1-4): ");
                 int choice = scanner.nextInt();
-                scanner.nextLine(); // Consume newline
+                scanner.nextLine();
                 switch (choice) {
                     case 1:
                         logger.info("Displaying all customer patterns");
-                        service.displayCustomerPatterns();
+                        customerService.displayCustomerPatterns();
                         break;
                     case 2:
                         System.out.println("Enter Customer Type (Member/Normal): ");
@@ -185,7 +176,7 @@ public class Main {
                         try {
                             CustomerType type = CustomerType.valueOf(typeInput.toUpperCase());
                             logger.info("Displaying customer patterns for type: {}", type);
-                            List<CustomerPattern> patterns = service.getCustomerPatternsByType(type);
+                            List<CustomerPattern> patterns = customerService.getCustomerPatternsByType(type);
                             if (patterns.isEmpty()) {
                                 logger.warn("No patterns found for customer type: {}", type);
                                 System.out.println("No patterns available for " + type);
@@ -208,7 +199,7 @@ public class Main {
                         try {
                             Gender gender = Gender.valueOf(genderInput.toUpperCase());
                             logger.info("Displaying customer patterns for gender: {}", gender);
-                            List<CustomerPattern> patterns = service.getCustomerPatternsByGender(gender);
+                            List<CustomerPattern> patterns = customerService.getCustomerPatternsByGender(gender);
                             if (patterns.isEmpty()) {
                                 logger.warn("No patterns found for gender: {}", gender);
                                 System.out.println("No patterns available for " + gender);
@@ -222,7 +213,7 @@ public class Main {
                             }
                         } catch (IllegalArgumentException e) {
                             logger.warn("Invalid gender: {}", genderInput);
-                            System.out.println("Invalid gender. Please enter 'Male', 'Female', or 'Color'.");
+                            System.out.println("Invalid gender. Please enter 'Male', 'Female', or 'Other'.");
                         }
                         break;
                     case 4:
@@ -244,7 +235,7 @@ public class Main {
         }
     }
 
-    private static void displaySalesTrendsMenu(InvoiceService service) {
+    private static void displaySalesTrendsMenu() {
         while (true) {
             System.out.println("\n=== Sales Trends Menu ===");
             System.out.println("1. Monthly Trends");
@@ -254,11 +245,11 @@ public class Main {
             try {
                 System.out.print("Enter your choice (1-4): ");
                 int choice = scanner.nextInt();
-                scanner.nextLine(); // Consume newline
+                scanner.nextLine();
                 switch (choice) {
                     case 1:
                         logger.info("Displaying monthly sales trends");
-                        Map<String, BigDecimal> monthlyTrends = service.getSalesTrends();
+                        Map<String, BigDecimal> monthlyTrends = invoiceService.getSalesTrends();
                         if (monthlyTrends.isEmpty()) {
                             logger.warn("No monthly sales trends found");
                             System.out.println("No monthly sales trends available.");
@@ -271,7 +262,7 @@ public class Main {
                         break;
                     case 2:
                         logger.info("Displaying quarterly sales trends");
-                        Map<String, BigDecimal> quarterlyTrends = service.getQuarterlySalesTrends();
+                        Map<String, BigDecimal> quarterlyTrends = invoiceService.getQuarterlySalesTrends();
                         if (quarterlyTrends.isEmpty()) {
                             logger.warn("No quarterly sales trends found");
                             System.out.println("No quarterly sales trends available.");
@@ -284,7 +275,7 @@ public class Main {
                         break;
                     case 3:
                         logger.info("Displaying yearly sales trends");
-                        Map<String, BigDecimal> yearlyTrends = service.getYearlySalesTrends();
+                        Map<String, BigDecimal> yearlyTrends = invoiceService.getYearlySalesTrends();
                         if (yearlyTrends.isEmpty()) {
                             logger.warn("No yearly sales trends found");
                             System.out.println("No yearly sales trends available.");
@@ -310,13 +301,12 @@ public class Main {
                 System.out.println("An error occurred: " + e.getMessage());
             }
             System.out.println("\nPress Enter to continue...");
-            scanner.nextLine();
         }
     }
 
-    private static void displayTopBranch(BranchService service) {
+    private static void displayTopBranch() {
         logger.info("Displaying top branch");
-        String topBranch = service.topBranch();
+        String topBranch = branchService.topBranch();
         if (topBranch == null || topBranch.isEmpty()) {
             logger.warn("No top branch found");
             System.out.println("No top branch available.");
@@ -325,9 +315,9 @@ public class Main {
         }
     }
 
-    private static void displayTopCity(BranchService service) {
+    private static void displayTopCity() {
         logger.info("Displaying top city");
-        String topCity = service.topCity();
+        String topCity = branchService.topCity();
         if (topCity == null || topCity.isEmpty()) {
             logger.warn("No top city found");
             System.out.println("No top city available.");
@@ -336,19 +326,19 @@ public class Main {
         }
     }
 
-    private static void displayPeakSalesHours(InvoiceItemService service) {
+    private static void displayPeakSalesHours() {
         logger.info("Displaying peak sales hours");
-        service.displayPeakSalesHours();
+        invoiceItemService.displayPeakSalesHours();
     }
 
-    private static void displayPeakSalesDays(InvoiceItemService service) {
+    private static void displayPeakSalesDays() {
         logger.info("Displaying peak sales days");
-        service.displayPeakSalesDays();
+        invoiceItemService.displayPeakSalesDays();
     }
 
-    private static void displayProductProfitability(ProductsService service) {
+    private static void displayProductProfitability() {
         logger.info("Displaying product profitability");
-        Map<String, BigDecimal> profitability = service.getProductProfitability();
+        Map<String, BigDecimal> profitability = productsService.getProductProfitability();
         if (profitability.isEmpty()) {
             logger.warn("No product profitability found");
             System.out.println("No product profitability data available.");
@@ -360,9 +350,9 @@ public class Main {
         }
     }
 
-    private static void displayDiscountImpact(InvoiceService service) {
+    private static void displayDiscountImpact() {
         logger.info("Displaying discount impact");
-        Map<String, BigDecimal> impact = service.getDiscountImpact();
+        Map<String, BigDecimal> impact = invoiceService.getDiscountImpact();
         if (impact.isEmpty()) {
             logger.warn("No discount impact found");
             System.out.println("No discount impact data available.");

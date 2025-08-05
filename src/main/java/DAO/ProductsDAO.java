@@ -15,18 +15,10 @@ import java.util.LinkedHashMap;
 import java.util.List;
 import java.util.Map;
 
-/**
- * Data Access Object for interacting with the products table and related views.
- */
 public class ProductsDAO {
     private static final Logger logger = LoggerFactory.getLogger(ProductsDAO.class);
 
-    /**
-     * Retrieves average ratings by product line from the product_avg view.
-     *
-     * @return a list of ProductRating objects
-     * @throws RuntimeException if a database error occurs
-     */
+
     public List<ProductRating> getAverageRatings() {
         List<ProductRating> ratings = new ArrayList<>();
         String sql = "SELECT * FROM product_avg";
@@ -52,12 +44,7 @@ public class ProductsDAO {
         return ratings;
     }
 
-    /**
-     * Retrieves product profitability from the product_performance view.
-     *
-     * @return a map of product line to gross income
-     * @throws RuntimeException if a database error occurs
-     */
+
     public Map<String, BigDecimal> getProductProfitability() {
         Map<String, BigDecimal> profitability = new LinkedHashMap<>();
         String sql = "SELECT product_line, ROUND(SUM(total_income), 2) AS total_gross_income " +

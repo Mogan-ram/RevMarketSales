@@ -1,8 +1,6 @@
 package Model;
 
-/**
- * Represents an invoice item in the supermarket database.
- */
+
 public class InvoiceItem {
     private int invoice_item_id;
     private String invoice_id;
@@ -12,14 +10,6 @@ public class InvoiceItem {
     public InvoiceItem() {
     }
 
-    /**
-     * Constructs an InvoiceItem with the specified details.
-     *
-     * @param invoice_item_id the unique identifier of the invoice item
-     * @param invoice_id     the ID of the associated invoice
-     * @param product_id     the ID of the associated product
-     * @param quantity       the quantity purchased
-     */
     public InvoiceItem(int invoice_item_id, String invoice_id, int product_id, int quantity) {
         this.invoice_item_id = invoice_item_id;
         this.invoice_id = invoice_id;

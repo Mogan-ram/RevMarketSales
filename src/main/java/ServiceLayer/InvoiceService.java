@@ -10,9 +10,7 @@ import java.math.BigDecimal;
 import java.util.List;
 import java.util.Map;
 
-/**
- * Service layer for invoice-related operations.
- */
+
 public class InvoiceService {
     private static final Logger logger = LoggerFactory.getLogger(InvoiceService.class);
     private final InvoiceDAO invoiceDAO;
@@ -23,11 +21,6 @@ public class InvoiceService {
         this.productsDAO = new ProductsDAO();
     }
 
-    /**
-     * Retrieves key performance indicators (Total Sales and Gross Income).
-     *
-     * @return an array containing Total Sales and Gross Income
-     */
     public BigDecimal[] getKPI() {
         logger.info("Retrieving KPIs");
         BigDecimal[] kpis = invoiceDAO.getKPI();
@@ -37,9 +30,6 @@ public class InvoiceService {
         return kpis;
     }
 
-    /**
-     * Retrieves and displays average ratings by product line.
-     */
     public void displayAverageRatings() {
         logger.info("Displaying average ratings by product line");
         List<ProductRating> ratings = productsDAO.getAverageRatings();
@@ -54,11 +44,6 @@ public class InvoiceService {
         }
     }
 
-    /**
-     * Retrieves monthly sales trends.
-     *
-     * @return a map of month (YYYY-MM) to total sales
-     */
     public Map<String, BigDecimal> getSalesTrends() {
         logger.info("Retrieving monthly sales trends");
         Map<String, BigDecimal> trends = invoiceDAO.getSalesTrends();
@@ -68,11 +53,6 @@ public class InvoiceService {
         return trends;
     }
 
-    /**
-     * Retrieves quarterly sales trends.
-     *
-     * @return a map of quarter (YYYY-Q) to total sales
-     */
     public Map<String, BigDecimal> getQuarterlySalesTrends() {
         logger.info("Retrieving quarterly sales trends");
         Map<String, BigDecimal> trends = invoiceDAO.getQuarterlySalesTrends();
@@ -82,11 +62,6 @@ public class InvoiceService {
         return trends;
     }
 
-    /**
-     * Retrieves yearly sales trends.
-     *
-     * @return a map of year (YYYY) to total sales
-     */
     public Map<String, BigDecimal> getYearlySalesTrends() {
         logger.info("Retrieving yearly sales trends");
         Map<String, BigDecimal> trends = invoiceDAO.getYearlySalesTrends();
@@ -96,11 +71,7 @@ public class InvoiceService {
         return trends;
     }
 
-    /**
-     * Retrieves discount impact by grouping sales by discount level.
-     *
-     * @return a map of discount level (High/Low) to total sales
-     */
+
     public Map<String, BigDecimal> getDiscountImpact() {
         logger.info("Retrieving discount impact");
         Map<String, BigDecimal> impact = invoiceDAO.getDiscountImpact();

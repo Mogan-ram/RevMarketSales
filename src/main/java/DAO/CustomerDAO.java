@@ -16,18 +16,11 @@ import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.List;
 
-/**
- * Data Access Object for interacting with the customer table and related views.
- */
+
 public class CustomerDAO {
     private static final Logger logger = LoggerFactory.getLogger(CustomerDAO.class);
 
-    /**
-     * Retrieves all customers from the customer table.
-     *
-     * @return a list of Customer objects
-     * @throws RuntimeException if a database error occurs
-     */
+
     public List<Customer> getAllCustomers() {
         List<Customer> customers = new ArrayList<>();
         String sql = "SELECT * FROM customer";
@@ -42,7 +35,7 @@ public class CustomerDAO {
                         Gender.valueOf(rs.getString("gender").toUpperCase())
                 );
                 customers.add(customer);
-                logger.debug("Added customer: {}", customer);
+                logger.debug("Added customer for viewing: {}", customer);
             }
             if (customers.isEmpty()) {
                 logger.warn("No customers found");
@@ -54,12 +47,7 @@ public class CustomerDAO {
         return customers;
     }
 
-    /**
-     * Retrieves customer purchasing patterns from the customer_distribution view.
-     *
-     * @return a list of CustomerPattern objects containing customer type, gender, invoice count, and total sales
-     * @throws RuntimeException if a database error occurs
-     */
+
     public List<CustomerPattern> getCustomerPatterns() {
         List<CustomerPattern> patterns = new ArrayList<>();
         String sql = "SELECT customer_type, gender, invoice_count, total_sales FROM customer_distribution";
@@ -75,7 +63,7 @@ public class CustomerDAO {
                         rs.getBigDecimal("total_sales")
                 );
                 patterns.add(pattern);
-                logger.debug("Added pattern: {}", pattern);
+                logger.debug("Added pattern for viewing: {}", pattern);
             }
             if (patterns.isEmpty()) {
                 logger.warn("No customer patterns found");
@@ -87,13 +75,7 @@ public class CustomerDAO {
         return patterns;
     }
 
-    /**
-     * Retrieves customer purchasing patterns filtered by customer type.
-     *
-     * @param type the customer type to filter by
-     * @return a list of CustomerPattern objects
-     * @throws RuntimeException if a database error occurs
-     */
+
     public List<CustomerPattern> getCustomerPatternsByType(CustomerType type) {
         List<CustomerPattern> patterns = new ArrayList<>();
         String sql = "SELECT customer_type, gender, invoice_count, total_sales " +
@@ -124,13 +106,7 @@ public class CustomerDAO {
         return patterns;
     }
 
-    /**
-     * Retrieves customer purchasing patterns filtered by gender.
-     *
-     * @param gender the gender to filter by
-     * @return a list of CustomerPattern objects
-     * @throws RuntimeException if a database error occurs
-     */
+
     public List<CustomerPattern> getCustomerPatternsByGender(Gender gender) {
         List<CustomerPattern> patterns = new ArrayList<>();
         String sql = "SELECT customer_type, gender, invoice_count, total_sales " +
